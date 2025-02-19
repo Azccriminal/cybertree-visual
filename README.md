@@ -1,64 +1,19 @@
-Example plain HTML site using GitLab Pages.
+# Azcosf Project Structure
 
-Learn more about GitLab Pages at https://pages.gitlab.io and the official
-documentation https://docs.gitlab.com/ce/user/project/pages/.
+Azcosf is a cyber detection toolset developed by the founder. Thanks to the objective dump structure, users can dump any object with a camera and determine their identity or emotions accordingly. Additionally, with its night vision support, it is possible to analyze emotions or object structures both near and far. Azcosf can predict and determine the attack structure or object structure by directly analyzing the object, without solely relying on the camera.
 
----
+### Photo URI:
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [GitLab CI](#gitlab-ci)
-- [GitLab User or Group Pages](#gitlab-user-or-group-pages)
-- [Did you fork this project?](#did-you-fork-this-project)
-- [Troubleshooting](#troubleshooting)
+## Main Purpose of Cyber Detection
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+The main purpose is to determine the attack and necessary scenarios by scanning other cyber attack object structures, providing the basis for the cyber tree structure. With cyber detection, you will no longer be in a situation where you cannot understand or identify any object or creature.
 
-## GitLab CI
+## How to Support the Cyber Detection Tree Structure?
 
-This project's static Pages are built by [GitLab CI][ci], following the steps
-defined in [`.gitlab-ci.yml`](.gitlab-ci.yml):
+You can support the project by sending donations or contributing to the object mind structure specified on our site. 
 
-```
-image: busybox
+- **Real-time information**: [Real-time data](https://azencompileropensourcefoundation.com/visual-enginnering/realtime.html)
+- **Event determination and scenario of event structure**: [Event structure details](https://azencompileropensourcefoundation.com/visual-enginnering/photo-video-object.php)
 
-pages:
-  stage: deploy
-  script:
-  - echo 'Nothing to do...'
-  artifacts:
-    paths:
-    - public
-    expire_in: 1 day
-  rules:
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
-```
-
-The above example expects to put all your HTML files in the `public/` directory.
-
-## GitLab User or Group Pages
-
-To use this project as your user/group website, you will need one additional
-step: just rename your project to `namespace.gitlab.io`, where `namespace` is
-your `username` or `groupname`. This can be done by navigating to your
-project's **Settings**.
-
-Read more about [user/group Pages][userpages] and [project Pages][projpages].
-
-## Did you fork this project?
-
-If you forked this project for your own use, please go to your project's
-**Settings** and remove the forking relationship, which won't be necessary
-unless you want to contribute back to the upstream project.
-
-## Troubleshooting
-
-1. CSS is missing! That means that you have wrongly set up the CSS URL in your
-   HTML files. Have a look at the [index.html] for an example.
-
-[ci]: https://about.gitlab.com/gitlab-ci/
-[index.html]: https://gitlab.com/pages/plain-html/blob/master/public/index.html
-[userpages]: https://docs.gitlab.com/ce/user/project/pages/introduction.html#user-or-group-pages
-[projpages]: https://docs.gitlab.com/ce/user/project/pages/introduction.html#project-pages
+It is possible to determine the scenario of event determination and event structure based on the real-time object structure or determine it separately from the object.
