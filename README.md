@@ -2,7 +2,7 @@
 
 Azcosf is a cyber detection toolset developed by the founder. Thanks to the objective dump structure, users can dump any object with a camera and determine their identity or emotions accordingly. Additionally, with its night vision support, it is possible to analyze emotions or object structures both near and far. Azcosf can predict and determine the attack structure or object structure by directly analyzing the object, without solely relying on the camera.
 
-### Photo URI:
+### Photo URI:https://gitlab.com/azencompileropensourcefoundation/cybertree-visual/-/blob/main/QUARD_OBJECTIVE.jpg
 
 
 ## Main Purpose of Cyber Detection
