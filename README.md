@@ -12,8 +12,7 @@ The main purpose is to determine the attack and necessary scenarios by scanning 
 ## How to Support the Cyber Detection Tree Structure?
 
 You can support the project by sending donations or contributing to the object mind structure specified on our site.
-**Donate and contributing**: [Donate](https://azencompileropensourcefoundation.com/visual-enginnering/contributor.php)
-- **Real-time information**: [Real-time data](https://azencompileropensourcefoundation.com/visual-enginnering/realtime.html)
-- **Event determination and scenario of event structure**: [Event structure details](https://azencompileropensourcefoundation.com/visual-enginnering/photo-video-object.php)
+[Donate](https://www.paypal.com/donate/?hosted_button_id=NKPHAU3NY3GZU)
+
 
 It is possible to determine the scenario of event determination and event structure based on the real-time object structure or determine it separately from the object.
