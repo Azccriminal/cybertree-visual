@@ -13,9 +13,14 @@ import pytz
 import os
 
 # Model and dependencies
-sys.path.append(os.path.join(os.getcwd(), 'instructorship-training'))
+sys.path.append(os.path.join(os.getcwd(), 'trainer-trained'))
 
-from nethumandetector_IO import detect_and_classify_face, query_human_behavior, analyze_and_respond_to_behavior
+# Load models directly
+def load_netemotional_model(model_path='netemotional.h5'):
+    return tf.keras.models.load_model(model_path)
+
+def load_face_setnewer_model(model_path='face_setnewer.h5'):
+    return tf.keras.models.load_model(model_path)
 
 class ObjectDetectionApp:
     def __init__(self, root):
@@ -25,26 +30,16 @@ class ObjectDetectionApp:
         self.is_fullscreen = True
         self.is_wifi_on = False
         self.is_gray_area_visible = False
-        
+
         self.cap = cv2.VideoCapture(0)
         if not self.cap.isOpened():
             print("Error: Could not open webcam.")
             self.root.quit()
             return
 
-        # Load MobileNet model (nethumandetector.h5)
-        model_path = 'trained-trainer/nethumandetector.h5'
-        if not os.path.exists(model_path):
-            print(f"Error: Model file '{model_path}' not found.")
-            self.root.quit()
-            return
-        
-        try:
-            self.face_model = tf.keras.models.load_model(model_path)
-        except Exception as e:
-            print(f"Error loading model: {e}")
-            self.root.quit()
-            return
+        # Load Models
+        self.emotion_model = load_netemotional_model('netemotional.h5')
+        self.face_model = load_face_setnewer_model('face_setnewer.h5')
 
         # Create Sniper Bar
         self.sniper_bar = tk.Canvas(self.root, width=800, height=50, bg='black')
@@ -104,12 +99,10 @@ class ObjectDetectionApp:
         # Skip frames to reduce processing load (adjust every 5th frame for example)
         if self.frame_skip_count % 5 == 0:
             try:
-                # Use the MobileNet model to detect and classify face and human behavior
-                frame = detect_and_classify_face(self.face_model, frame)
-                # Query the human behavior from the external source
-                human_data = query_human_behavior(frame)
-                if human_data:
-                    analyze_and_respond_to_behavior(human_data)
+                # Detect faces and classify emotion using the models
+                frame, detection_results = self.detect_and_classify_face_with_emotion(frame)
+                for result in detection_results:
+                    self.update_sniper_bar(result['label'], result['emotion'])
             except Exception as e:
                 print(f"Error during face detection and classification: {e}")
 
@@ -137,6 +130,55 @@ class ObjectDetectionApp:
         contrast_frame = cv2.convertScaleAbs(green_tinted_frame, alpha=1.5, beta=30)
         contrast_frame = np.clip(contrast_frame, 0, 255)
         return contrast_frame
+
+    def detect_and_classify_face_with_emotion(self, frame):
+        face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+
+        detection_results = []
+        for (x, y, w, h) in faces:
+            face_roi = frame[y:y+h, x:x+w]
+            face_roi_gray = cv2.cvtColor(face_roi, cv2.COLOR_BGR2GRAY)
+            face_roi_gray = cv2.resize(face_roi_gray, (48, 48))
+            face_roi_gray = face_roi_gray.astype("float32") / 255.0
+            face_roi_gray = np.expand_dims(face_roi_gray, axis=-1)
+
+            # Emotion prediction
+            emotion = self.predict_emotion_from_frame(face_roi_gray)
+            emotion_label = "Huzurlu" if emotion == 0 else "Sinirli"
+
+            # Classify face as Safe or Threat
+            prediction = self.face_model.predict(np.expand_dims(face_roi_gray, axis=0))
+            predicted_class = np.argmax(prediction, axis=1)
+
+            label = "Safe" if predicted_class == 0 else "Threat"
+            color = (0, 255, 0) if predicted_class == 0 else (0, 0, 255)
+
+            cv2.rectangle(frame, (x, y), (x + w, y + h), color, 2)
+            cv2.putText(frame, f"{label} - {emotion_label}", (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, color, 2)
+
+            detection_results.append({
+                'timestamp': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                'label': label,
+                'emotion': emotion_label,
+                'x': x,
+                'y': y,
+                'w': w,
+                'h': h
+            })
+        return frame, detection_results
+
+    def predict_emotion_from_frame(self, frame):
+        resized_frame = cv2.resize(frame, (48, 48))
+        resized_frame = resized_frame.astype("float32") / 255.0
+        resized_frame = np.expand_dims(resized_frame, axis=-1)
+        resized_frame = np.expand_dims(resized_frame, axis=0)
+        
+        # Emotion prediction
+        emotion_prediction = self.emotion_model.predict(resized_frame)
+        predicted_emotion = np.argmax(emotion_prediction, axis=1)
+        return predicted_emotion[0]  # 0: Huzurlu, 1: Sinirli
 
     def draw_crosshair_and_compass(self):
         self.canvas.create_line(self.root.winfo_width() // 2, 0, self.root.winfo_width() // 2, self.root.winfo_height(), fill="white", width=2)
@@ -166,45 +208,38 @@ class ObjectDetectionApp:
         bearing = (bearing + 360) % 360
         return bearing
 
-    def update_sniper_bar(self, object_class, category):
-        color = "green"
-        if object_class == "Aggressive":
-            color = "red"
-        elif object_class == "Robot":
-            color = "purple"
-        self.sniper_bar.config(bg=color)
-
     def update_compass(self):
         self.compass_label.config(text=f"Compass: {self.compass_direction}")
 
+    def update_sniper_bar(self, status, label):
+        self.sniper_bar.delete("all")
+        self.sniper_bar.create_text(400, 25, text=f"Status: {status} - Target: {label}", fill="white", font=("Helvetica", 12))
+
     def toggle_wifi(self):
         self.is_wifi_on = not self.is_wifi_on
-        if self.is_wifi_on:
-            self.current_location = self.get_ip_location()
-            self.toggle_wifi_button.config(text="Turn Wi-Fi Off")
-        else:
-            self.current_location = (0, 0)
-            self.toggle_wifi_button.config(text="Turn Wi-Fi On")
+        status = "on" if self.is_wifi_on else "off"
+        print(f"Wi-Fi is now {status}")
 
     def toggle_gray_area(self):
         self.is_gray_area_visible = not self.is_gray_area_visible
-        self.canvas.config(bg="gray" if self.is_gray_area_visible else "black")
+        status = "visible" if self.is_gray_area_visible else "hidden"
+        print(f"Gray area is now {status}")
+
+    def update_time(self):
+        current_time = datetime.datetime.now(pytz.timezone("Asia/Istanbul")).strftime('%H:%M:%S')
+        self.time_label.config(text=f"Time: {current_time}")
+        self.root.after(1000, self.update_time)
 
     def toggle_fullscreen(self, event=None):
         self.is_fullscreen = not self.is_fullscreen
-        if self.is_fullscreen:
-            self.root.attributes("-fullscreen", True)
-            self.root.config(bg="black")
-        else:
-            self.root.attributes("-fullscreen", False)
-            self.root.config(bg="white")
+        self.root.attributes("-fullscreen", self.is_fullscreen)
+        self.root.bind("<F11>", self.toggle_fullscreen)
+        self.root.bind("<Escape>", self.exit_fullscreen)
 
-    def update_time(self):
-        local_time = datetime.datetime.now().strftime("%H:%M:%S")
-        gmt_time = datetime.datetime.now(pytz.utc).strftime("%H:%M:%S")
-        self.time_label.config(text=f"Local Time: {local_time} | GMT: {gmt_time}")
-        self.root.after(1000, self.update_time)
-
+    def exit_fullscreen(self, event=None):
+        self.is_fullscreen = False
+        self.root.attributes("-fullscreen", False)
+        self.root.bind("<F11>", self.toggle_fullscreen)
 
 if __name__ == "__main__":
     root = tk.Tk()

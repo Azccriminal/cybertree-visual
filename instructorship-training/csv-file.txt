@@ -1,0 +1,11 @@
+| HUMAN EMOTIONAL FILE ENTRY |
+human emotional/csv/human/angry.csv
+human emotional/csv/human/happy.csv
+
+| ANIMAL EMOTIONAL FILE ENTRY |
+animal emotional/csv/animal/sad.csv
+animal emotional/csv/animal/crazy.csv
+
+| ROBOT EMOTIONAL FILE ENTRY |
+robot emotional/csv/robot/scared.csv
+robot emotional/csv/robot/sleepy.csv

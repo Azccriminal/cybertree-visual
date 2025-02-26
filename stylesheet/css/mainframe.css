@@ -1,0 +1,144 @@
+/* mainframe.css */
+
+/* General Window Styles */
+QWidget {
+    background-color: #1a1a1a;  /* Dark background */
+    font-family: 'Orbitron', sans-serif;  /* Orbit font */
+}
+
+/* Title Bar */
+QMainWindow {
+    background-color: #003366;  /* Dark Blue */
+    color: black;  /* Black text */
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Buttons */
+QPushButton {
+    background-color: #0066cc;  /* Blue */
+    color: black;  /* Black text */
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    transition: background-color 0.3s;
+}
+
+QPushButton:hover {
+    background-color: #005bb5;  /* Hover - Darker Blue */
+}
+
+QPushButton:pressed {
+    background-color: #004080;  /* Pressed - Navy Blue */
+}
+
+/* Buttons for Emotion Recording */
+.QPushButton.emotion-button {
+    background-color: #33cc33;  /* Green for emotion buttons */
+}
+
+.QPushButton.emotion-button:hover {
+    background-color: #2d9c2d;  /* Hover - Darker Green */
+}
+
+/* Fullscreen and Face Effects Button */
+.QPushButton.fullscreen-button {
+    background-color: #00008b;  /* Dark Blue */
+}
+
+.QPushButton.fullscreen-button:hover {
+    background-color: #000080;  /* Hover - Navy Blue */
+}
+
+/* Button for Add New Emotion */
+.QPushButton.add-emotion-button {
+    background-color: #4682b4;  /* Steel Blue */
+}
+
+.QPushButton.add-emotion-button:hover {
+    background-color: #4169e1;  /* Hover - Royal Blue */
+}
+
+/* Video Panel */
+QLabel#video-panel {
+    border: 2px solid #003366;  /* Dark Blue */
+    margin: 20px;
+    background-color: #000000;  /* Black background */
+}
+
+/* Emotion Buttons Layout */
+QVBoxLayout {
+    spacing: 10px;
+    margin: 10px;
+}
+
+QWidget#emotion-buttons {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Safe Area (rectangle) styling */
+QLabel#safe-area {
+    border: 2px solid #ff0000;  /* Red border */
+    background-color: rgba(255, 0, 0, 0.3);  /* Red background */
+}
+
+/* General Input and Text Boxes */
+QLineEdit, QTextEdit {
+    background-color: #ffffff;  /* White background */
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #cccccc;  /* Light grey border */
+}
+
+/* Title Text for Different Sections */
+QLabel.title-label {
+    font-size: 20px;
+    font-weight: bold;
+    color: black;  /* Black text */
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+/* Adjust Layout for Overall Window */
+QWidget {
+    padding: 10px;
+    margin: 5px;
+}
+
+/* Apply to any Labels */
+QLabel {
+    font-size: 14px;
+    color: black;  /* Black text */
+    margin-bottom: 5px;
+}
+
+/* Apply to Error or Information Messages */
+QMessageBox {
+    font-size: 14px;
+    font-family: 'Orbitron', sans-serif;  /* Orbit font */
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #003366;  /* Dark Blue */
+    color: black;  /* Black text */
+}
+
+/* Other Customization */
+QMenuBar {
+    background-color: #00363e;  /* Dark blue-green */
+    color: black;  /* Black text */
+    font-size: 14px;
+}
+
+QMenuBar::item {
+    background-color: #00363e;  /* Same as background */
+    padding: 5px 10px;
+}
+
+QMenuBar::item:selected {
+    background-color: #005f73;  /* Hovered blue-green */
+}

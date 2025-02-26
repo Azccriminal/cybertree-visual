@@ -1,0 +1,69 @@
+/* Genel animasyon stil */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes moveLayer {
+    0% {
+        transform: translateX(-100%);
+    }
+    50% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes fillHumanFace {
+    0% {
+        width: 0%;
+        background-color: transparent;
+    }
+    100% {
+        width: 50%;
+        background-color: #000000;
+    }
+}
+
+/* Ana widget ayarları */
+QWidget {
+    animation: fadeIn 1s ease-in-out;
+    background-color: #000000;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Sol taraftaki çizgili siyah insan tabakası */
+.left-layer {
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right, transparent 50%, black 50%);
+    animation: moveLayer 4s infinite ease-in-out;
+}
+
+/* Sağ taraftaki insan yüzünün yarısı */
+.right-layer {
+    width: 50%;
+    height: 100%;
+    background-color: blue;
+    animation: fillHumanFace 4s ease-in-out forwards;
+    position: relative;
+}
+
+/* Yüz kısmı dolan alanın görünümü */
+.right-layer .face-part {
+    width: 50%;
+    height: 100%;
+    background-color: black;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
