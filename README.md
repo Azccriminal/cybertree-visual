@@ -14,5 +14,14 @@ The main purpose is to determine the attack and necessary scenarios by scanning 
 You can support the project by sending donations or contributing to the object mind structure specified on our site.
 [Donate](https://www.paypal.com/donate/?hosted_button_id=NKPHAU3NY3GZU)
 
+## How can I train the dataset?
+To train the dataset, you can use the face block coordinator Python code to save the necessary data in your face structure and determine the path to `csv-file.txt`. You can use this field as the direct CSV path: 
+
+`instructorship-training/emotional/csv`
+
+If you want to contribute on GitHub, you can train the photo URL with `url-file.txt`, or you can get the URL by saving the photo files directly to the following directory:
+
+`instructorship-training/emotional/image`
+
 
 It is possible to determine the scenario of event determination and event structure based on the real-time object structure or determine it separately from the object.
